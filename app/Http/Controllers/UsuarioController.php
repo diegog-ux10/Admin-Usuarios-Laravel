@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
-use App\Http\Requests\StoreUsuarioRequest;
-use App\Http\Requests\UpdateUsuarioRequest;
+use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
@@ -13,7 +12,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        //
+        return Usuario::all();
     }
 
     /**
@@ -27,17 +26,24 @@ class UsuarioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUsuarioRequest $request)
+    public function store(Request $request)
     {
-        //
+        $usuarioNuevo = new Usuario();
+        $usuarioNuevo->nombre = $request->nombre;
+        $usuarioNuevo->apellido = $request->apellido;
+        $usuarioNuevo->email = $request->email;
+        $usuarioNuevo->fecha_registro = now();
+        $usuarioNuevo->save();
+        return "Usuario Guardado Exitosamente!";
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Usuario $usuario)
+    public function show($id)
     {
-        //
+
+        return Usuario::find($id);
     }
 
     /**
@@ -48,19 +54,34 @@ class UsuarioController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUsuarioRequest $request, Usuario $usuario)
+
+    public function update(Request $request, $id)
     {
-        //
+        $usuarioNuevo = Usuario::find($id);
+        if ($usuarioNuevo) {
+            $usuarioNuevo->nombre = $request->nombre;
+            $usuarioNuevo->apellido = $request->apellido;
+            $usuarioNuevo->email = $request->email;
+            $usuarioNuevo->save();
+            return "usuario guardado";
+        } else {
+            return "Ocurrio un error";
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Usuario $usuario)
+    public function destroy($id)
     {
-        //
+        // Find the user by ID
+        $usuarioEliminar = Usuario::find($id); // Replace $usuarioEliminarId with the actual ID of the user you want to delete
+
+        if ($usuarioEliminar) {
+            $usuarioEliminar->delete();
+            return "Usuario Eliminado";
+        } else {
+            return "Ocurrio un error";
+        }
     }
 }
