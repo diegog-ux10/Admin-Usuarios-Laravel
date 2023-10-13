@@ -7,25 +7,11 @@ use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return Usuario::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $usuarioNuevo = new Usuario();
@@ -37,23 +23,11 @@ class UsuarioController extends Controller
         return "Usuario Guardado Exitosamente!";
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
 
         return Usuario::find($id);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Usuario $usuario)
-    {
-        //
-    }
-
 
     public function update(Request $request, $id)
     {
@@ -69,13 +43,9 @@ class UsuarioController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        // Find the user by ID
-        $usuarioEliminar = Usuario::find($id); // Replace $usuarioEliminarId with the actual ID of the user you want to delete
+        $usuarioEliminar = Usuario::find($id);
 
         if ($usuarioEliminar) {
             $usuarioEliminar->delete();
